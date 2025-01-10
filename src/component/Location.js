@@ -23,7 +23,7 @@ const Title = styled.p`
 `;
 
 const Subtitle = styled.p`
-  /*우리의 순간들들*/
+  /*오시는 길*/
   font-family: "Noto Sans KR", sans-serif;
   font-size: 20px;
   margin-top: 3px;
@@ -31,15 +31,15 @@ const Subtitle = styled.p`
   color: #5f4f56;
 `;
 
-const Gallery = () => {
+const Location = () => {
   return (
     <Wrapper>
       <Container>
-        <Title>Wedding Gallery</Title>
-        <Subtitle>우리의 순간들</Subtitle>
+        <Title>Location</Title>
+        <Subtitle>오시는 길</Subtitle>
       </Container>
     </Wrapper>
   );
 };
 
-export default Gallery;
+export default Location;
