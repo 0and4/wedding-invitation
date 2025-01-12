@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Wrapper } from "./ui/Wrapper";
+import callIcon from "../images/call.png";
+import messageIcon from "../images/message.png";
 import iconImage from "../images/greeting_icon.png";
 
 const Container = styled.div`
   width: 375px;
-  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  background-color: #f6f2f2;
+  background: #f6f2f2;
 `;
 
 const Title = styled.p`
-  /*invitation*/
   font-family: "Orbit", sans-serif;
   font-size: 20px;
   margin-top: 30px;
@@ -25,7 +25,6 @@ const Title = styled.p`
 `;
 
 const Subtitle = styled.p`
-  /*소중한 분들을 초대합니다*/
   font-family: "Noto Sans KR", sans-serif;
   font-size: 20px;
   margin-top: 3px;
@@ -34,7 +33,6 @@ const Subtitle = styled.p`
 `;
 
 const Paragraph = styled.p`
-  /*인삿말 내용*/
   font-family: "Noto Sans KR", sans-serif;
   font-size: 15px;
   line-height: 1.6;
@@ -43,7 +41,6 @@ const Paragraph = styled.p`
 `;
 
 const Names = styled.p`
-  /*장남,장녀*/
   font-family: "Noto Sans KR", sans-serif;
   font-size: 15px;
   margin-top: 45px;
@@ -79,16 +76,87 @@ const Modal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 200px;
-  padding: 20px;
-  background: #ccc1c1; /* 배경색 */
-  border-radius: 10px;
+  width: 90%;
+  max-width: 290px;
+  height: 600px;
+  background: #ccc1c1;
+  border-radius: 5px;
   text-align: center;
   z-index: 1000;
+  padding: 20px;
+`;
+
+const GroupTitle = styled.p`
+  /*신랑측, 신부측 제목 스타일링*/
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  text-align: left;
+  color: #5f4f56;
+  margin-top: 50px;
+`;
+
+const ContactRole = styled.div`
+  /*역할 칸 스타일링*/
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 13px;
+  color: #5f4f56;
+  flex: 1;
+`;
+
+const ContactName = styled.span`
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 13px;
+  color: #5f4f56;
+  flex: 2; /* 이름 칸 비율 */
+`;
+
+const ContactRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+`;
+
+const ButtonGroup = styled.div`
+  /* 전화, 메시지 버튼 그룹 정렬 */
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+`;
+
+const IconButton = styled.a`
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease-in-out;
+
+  img {
+    width: 18px;
+    height: 16px;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &:active img {
+    transform: scale(1.4); /* 클릭 시 더 커지는 효과 */
+  }
+`;
+
+const Divider = styled.hr`
+  /* 구분선 */
+  width: 100%;
+  border: none;
+  border-top: 1px solid #e0e0e0;
 `;
 
 const Backdrop = styled.div`
+  /*모달 뒷배경*/
   position: fixed;
   top: 0;
   left: 0;
@@ -99,6 +167,7 @@ const Backdrop = styled.div`
 `;
 
 const CloseButton = styled.button`
+  /* 닫기 버튼 */
   position: absolute;
   top: 10px;
   right: 10px;
@@ -122,9 +191,30 @@ const Invitation = () => {
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseModal = (e) => {
+    if (e.target.id === "backdrop") {
+      setIsModalOpen(false);
+    }
   };
+
+  const contactList = [
+    {
+      title: "신랑측",
+      contacts: [
+        { role: "신랑", name: "손현우", phone: "010-1234-5678" },
+        { role: "신랑 아버지", name: "손 0 0", phone: "010-2345-6789" },
+        { role: "신랑 어머니", name: "이 0 0", phone: "010-3456-7890" },
+      ],
+    },
+    {
+      title: "신부측",
+      contacts: [
+        { role: "신부", name: "박세희", phone: "010-4567-8901" },
+        { role: "신부 아버지", name: "박 0 0", phone: "010-5678-9012" },
+        { role: "신부 어머니", name: "김 0 0", phone: "010-6789-0123" },
+      ],
+    },
+  ];
 
   return (
     <Wrapper>
@@ -152,20 +242,42 @@ const Invitation = () => {
           아름다운 날들을 만들어 가겠습니다.
         </Paragraph>
         <Names>
-          000 · 000의 장남 손현우
+          손00 · 이00의 장남 손현우
           <br />
-          000 · 000의 장녀 박세희
+          박00 · 김00의 장녀 박세희
         </Names>
         <ContactButton onClick={handleOpenModal}>연락하기</ContactButton>
 
         {isModalOpen && (
-          <>
-            <Backdrop onClick={handleCloseModal} />
+          <Backdrop id="backdrop" onClick={handleCloseModal}>
             <Modal>
-              <CloseButton onClick={handleCloseModal}>×</CloseButton>
-              {/* 모달 내용은 이후 추가 예정 */}
+              <CloseButton onClick={() => setIsModalOpen(false)}>×</CloseButton>
+              <Title>Contact</Title>
+              <Subtitle>연락하기</Subtitle>
+
+              {contactList.map((group, index) => (
+                <div key={index}>
+                  <GroupTitle>{group.title}</GroupTitle>{" "}
+                  {/* h3 대신 p 태그로 표시 */}
+                  <Divider /> {/* 구분선 추가 */}
+                  {group.contacts.map((contact, idx) => (
+                    <ContactRow key={idx}>
+                      <ContactRole>{contact.role}</ContactRole>
+                      <ContactName>{contact.name}</ContactName>
+                      <ButtonGroup>
+                        <IconButton href={`tel:${contact.phone}`}>
+                          <img src={callIcon} alt="전화" />
+                        </IconButton>
+                        <IconButton href={`sms:${contact.phone}`}>
+                          <img src={messageIcon} alt="문자" />
+                        </IconButton>
+                      </ButtonGroup>
+                    </ContactRow>
+                  ))}
+                </div>
+              ))}
             </Modal>
-          </>
+          </Backdrop>
         )}
       </Container>
     </Wrapper>
