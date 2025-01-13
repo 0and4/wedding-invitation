@@ -28,7 +28,7 @@ const AccountSection = styled.div`
   border: 1px solid #ccc;
   width: 310px;
   text-align: left;
-  font-size: 18px;
+  font-size: 15px;
   color: #5f4f56;
   font-weight: 600;
   border-radius: ${({ $isOpen }) => ($isOpen ? "8px 8px 0 0" : "8px")};
@@ -51,6 +51,7 @@ const AccountDetails = styled.div`
   background-color: #fafafa;
   border:1px solid #ccc;
   width: 100%;
+  font-size: 14px;
   display: ${({ $show }) => ($show ? "block" : "none")};
   ul {
     text-align: left;
@@ -77,7 +78,7 @@ const CopyButton = styled.button`
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 13px;
   float: right;
   transition: background-color 0.3s ease, transform 0.2s ease;
 
