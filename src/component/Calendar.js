@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { Wrapper } from "./ui/Wrapper";
 
@@ -50,15 +50,15 @@ const CalendarGrid = styled.div`
 const Day = styled.div`
   font-family: "Noto Sans KR", sans-serif;
   font-size: 12px;
-  color: ${(props) => (props.isWeekend ? "#d9534f" : "#5f4f56")};
+  color: ${(props) => (props.$isWeekend ? "#d9534f" : "#5f4f56")};
 `;
 
 const DateCell = styled.div`
   font-family: "Noto Sans KR", sans-serif;
   font-size: 12px;
   color: ${(props) =>
-    props.isToday ? "#ffffff" : props.isSunday ? "#d9534f" : "#5f4f56"};
-  background-color: ${(props) => (props.isToday ? "#E5ABA9" : "transparent")};
+    props.$isToday ? "#ffffff" : props.$isSunday ? "#d9534f" : "#5f4f56"};
+  background-color: ${(props) => (props.$isToday ? "#E5ABA9" : "transparent")};
   border-radius: 50%;
   width: 10px;
   height: 10px;
@@ -82,16 +82,14 @@ const Message = styled.p`
   color: #5f4f56;
   margin-bottom: 30px;
 `;
-
 const Calendar = () => {
   const [timeLeft, setTimeLeft] = useState("");
   const [daysLeft, setDaysLeft] = useState("");
 
-  // 결혼식 날짜
-  const weddingDate = new Date("2025-03-22T10:00:00");
+  // 결혼식 날짜를 useMemo로 설정
+  const weddingDate = useMemo(() => new Date("2025-03-22T10:00:00"), []);
 
-  // 남은 시간 계산
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = useCallback(() => {
     const now = new Date();
     const difference = weddingDate - now;
 
@@ -101,26 +99,22 @@ const Calendar = () => {
       const minutes = Math.floor((difference / (1000 * 60)) % 60);
       const seconds = Math.floor((difference / 1000) % 60);
 
-      setDaysLeft(days); // 남은 일수 저장
+      setDaysLeft(days);
       setTimeLeft(`${days}일 ${hours}시간 ${minutes}분 ${seconds}초`);
     } else {
-      setDaysLeft(0); // 남은 일수 0 설정
+      setDaysLeft(0);
       setTimeLeft("오늘 결혼식입니다!");
     }
-  };
+  }, [weddingDate]);
 
-  // 타이머 업데이트
   useEffect(() => {
     const timer = setInterval(() => calculateTimeLeft(), 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [calculateTimeLeft]);
 
-  // 요일과 날짜 생성
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
   const dates = Array.from({ length: 31 }, (_, i) => i + 1);
-
-  // 3월 달력: 1일이 토요일부터 시작
-  const marchOffset = 6; // 1일이 토요일 (6칸 공백)
+  const marchOffset = 6;
 
   return (
     <Wrapper>
@@ -130,7 +124,7 @@ const Calendar = () => {
         <Divider />
         <CalendarGrid>
           {daysOfWeek.map((day, index) => (
-            <Day key={index} isWeekend={day === "일" || day === "토"}>
+            <Day key={index} $isWeekend={day === "일" || day === "토"}>
               {day}
             </Day>
           ))}
@@ -144,8 +138,8 @@ const Calendar = () => {
             return (
               <DateCell
                 key={date}
-                isToday={date === 22}
-                isSunday={dayOfWeek === 0} // 일요일 확인
+                $isToday={date === 22}
+                $isSunday={dayOfWeek === 0} // 일요일 확인
               >
                 {date}
               </DateCell>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Wrapper } from "./ui/Wrapper";
 
@@ -35,13 +35,6 @@ const InfoText = styled.p`
   margin: 2px 0;
   color: #767676;
   text-align: left;
-`;
-
-const Map = styled.img`
-  width: 90%;
-  height: auto;
-  margin: 20px 0;
-  border-radius: 8px;
 `;
 
 const Section = styled.div`
@@ -116,7 +109,58 @@ const ColorCircle = styled.span`
   margin-right: 8px;
 `;
 
+const MapContainer = styled.div`
+  width: 100%;
+  height: 300px; /* 지도 높이 */
+  margin: 20px 0;
+  border-radius: 8px;
+`;
+
 const Location = () => {
+  useEffect(() => {
+    if (window.kakao && window.kakao.maps) {
+      const container = document.getElementById("map");
+      const options = {
+        center: new window.kakao.maps.LatLng(37.507175, 126.890272), // 지도 중심 좌표
+        level: 3, // 확대 레벨
+      };
+
+      const map = new window.kakao.maps.Map(container, options);
+
+      // 마커 생성
+      const markerPosition = new window.kakao.maps.LatLng(
+        37.507175,
+        126.890272
+      ); // 마커 위치
+      const markerImageSrc =
+        "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; // 커스텀 마커 이미지 URL
+      const markerImageSize = new window.kakao.maps.Size(24, 35); // 마커 이미지 크기
+      const markerImage = new window.kakao.maps.MarkerImage(
+        markerImageSrc,
+        markerImageSize
+      );
+
+      const marker = new window.kakao.maps.Marker({
+        position: markerPosition, // 마커의 위치
+        image: markerImage, // 커스텀 마커 이미지
+      });
+
+      // 마커를 지도에 추가
+      marker.setMap(map);
+
+      // 마커 클릭 이벤트 등록
+      window.kakao.maps.event.addListener(marker, "click", () => {
+        // 마커 클릭 시 실행할 동작
+        window.open(
+          "https://map.kakao.com/link/map/웨딩시티 신도림,37.507175,126.890272",
+          "_blank"
+        );
+      });
+    } else {
+      console.error("카카오 맵 API가 로드되지 않았습니다.");
+    }
+  }, []);
+
   return (
     <Wrapper>
       <Container>
@@ -126,10 +170,8 @@ const Location = () => {
         <InfoText>서울 구로구 새말로 97</InfoText>
         <InfoText>Tel. 02-2111-8888</InfoText>
 
-        <Map
-          src="https://via.placeholder.com/350x200" //지도 추가하기 (우선 이렇게 설정..ㅠ)
-          alt="지도 추가"
-        />
+        {/* 카카오 지도 삽입 */}
+        <MapContainer id="map" />
 
         {/* 지하철 정보 */}
         <Section>
