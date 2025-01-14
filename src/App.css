@@ -12,3 +12,12 @@ body {
 h1 {
   align-items: center;
 }
+.fade-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.slide-down {
+  transform: translateY(-20px);
+}
