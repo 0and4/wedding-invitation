@@ -22,6 +22,7 @@
 - **React Router** : 페이지 라우팅
 - **JavaScript (ES6+)** : 상호작용 구현
 - **HTML/CSS** : 레이아웃 구성
+- **Kakao 지도 API** : 식장 위치 표시
 - **Github Pages** : 프로젝트 배포
 - **Firebase** : 방명록(댓글) 데이터 저장 및 서버 배포
 
