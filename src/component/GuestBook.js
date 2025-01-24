@@ -49,7 +49,7 @@ const Context = styled.p`
 `;
 const GuestListDiv = styled.div`
   width: 295px;
-  height: 420px;
+  height: 460px;
 
   background: #e0908d;
   border-radius: 20px;

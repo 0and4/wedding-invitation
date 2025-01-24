@@ -11,6 +11,10 @@ import Gallery from "./component/Gallery";
 function App() {
   const accountRef = useRef(null);
   const guestBookRef = useRef(null);
+  const invitationRef = useRef(null);
+  const calendarRef = useRef(null);
+  const locationRef = useRef(null);
+  const galleryRef = useRef(null);
   const [scrollDirection, setScrollDirection] = useState("down");
 
   useEffect(() => {
@@ -47,6 +51,10 @@ function App() {
 
     if (accountRef.current) observer.observe(accountRef.current);
     if (guestBookRef.current) observer.observe(guestBookRef.current);
+    if (invitationRef.current) observer.observe(invitationRef.current);
+    if (calendarRef.current) observer.observe(calendarRef.current);
+    if (locationRef.current) observer.observe(locationRef.current);
+    if (galleryRef.current) observer.observe(galleryRef.current);
 
     return () => observer.disconnect();
   }, [scrollDirection]);
@@ -55,17 +63,28 @@ function App() {
     <div className="App">
       <main>
         <Main />
-        <Invitation></Invitation>
-        <Calendar></Calendar>
-        <Location></Location>
+        <div ref={invitationRef} className="fade-in">
+          <Invitation />
+        </div>
+        <div ref={calendarRef} className="fade-in">
+          <Calendar />
+        </div>
+        <div ref={locationRef} className="fade-in">
+          <Location />
+        </div>
         <div ref={accountRef} className="fade-in">
           <Account />
         </div>
-        <Gallery></Gallery>
+        <div ref={galleryRef} className="fade-in">
+          <Gallery />
+        </div>
         <div ref={guestBookRef} className="fade-in">
           <GuestBook />
         </div>
       </main>
+      <footer className="footer">
+        <p>© 2025 say & bee. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
