@@ -3,6 +3,10 @@ import "./App.css";
 import Account from "./component/Account";
 import GuestBook from "./component/GuestBook";
 import Main from "./component/Main";
+import Invitation from "./component/Invitation";
+import Calendar from "./component/Calendar";
+import Location from "./component/Location";
+import Gallery from "./component/Gallery";
 
 function App() {
   const accountRef = useRef(null);
@@ -51,9 +55,13 @@ function App() {
     <div className="App">
       <main>
         <Main />
+        <Invitation></Invitation>
+        <Calendar></Calendar>
+        <Location></Location>
         <div ref={accountRef} className="fade-in">
           <Account />
         </div>
+        <Gallery></Gallery>
         <div ref={guestBookRef} className="fade-in">
           <GuestBook />
         </div>
